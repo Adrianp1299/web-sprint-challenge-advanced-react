@@ -45,6 +45,13 @@ test('Has Coordinates', () => {
   expect(coordinates.textContent).toMatch(/\(2.*2\)$/)
 })
 
+test('coordinates moves', () => {
+  render(<AppClass/>);
+  fireEvent.click(up)
+  fireEvent.click(left)
+  expect(coordinates.textContent).toMatch(/\(1.*1\)$/)
+})
+
 
 
 test('sanity', () => {
