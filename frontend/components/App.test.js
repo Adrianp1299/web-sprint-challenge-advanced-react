@@ -3,7 +3,6 @@ import React from "react"
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import AppClass from "./AppClass"
-import { reset } from "nodemon"
 
 const updateStatelessSelectors = document => {
   up = document.querySelector('#up')
@@ -33,10 +32,14 @@ test('can enter email', () => {
   expect(email).toHaveValue('adrianp1299@gmail.com')
 })
 
-test('not entering a valid email results in an error', async () => {
-  render(<AppClass/>);
-  fireEvent.click(submit);
-  await screen.findByText('Ouch: email is required')
+test('steps are reset', () => {
+  render(<AppClass/>)
+    fireEvent.click(up)
+    fireEvent.click(up)
+    fireEvent.click(left)
+    expect(steps.textContent).toBe("You moved 2 times")
+    fireEvent.click(reset)
+    expect(steps.textContent).toBe("You moved 0 times")
 })
 
 test('Has Coordinates', () => {
