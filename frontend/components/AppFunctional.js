@@ -15,11 +15,19 @@ export default function AppFunctional(props) {
   const [email, setEmail] = useState(initialEmail);
   const [steps, setSteps] = useState(initialSteps);
 
+  function getTime (){
+    if (steps === 1) {
+      return "time"
+    } else {
+      return "times"
+    }
+  }
+
   function getXY() {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
     const coordinatesArray = [  '(1, 1)', '(2, 1)', '(3, 1)', '(1, 2)', '(2, 2)', '(3, 2)', '(1, 3)', '(2, 3)', '(3, 3)']
-    let coordinates = coordinatesArray[index]
+    const coordinates = coordinatesArray[index]
     return coordinates
   }
 
@@ -80,7 +88,7 @@ export default function AppFunctional(props) {
     evt.preventDefault()
     axios.post('http://localhost:9000/api/result', { "x": getXY().charAt(1), "y": getXY().charAt(4), "steps": steps, "email": email })
     .then(res=> {
-      reset();
+      setEmail("");
       setMessage(res.data.message)
     })
     .catch(err => {
@@ -92,7 +100,7 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">{getXYMessage()}</h3>
-        <h3 id="steps">You moved {steps} times</h3>
+        <h3 id="steps">You moved {steps} {getTime()}</h3>
       </div>
       <div id="grid">
         {
